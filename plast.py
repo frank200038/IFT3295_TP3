@@ -1,13 +1,6 @@
 import argparse
 import os
 
-
-
-
-
-
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
     #add argument -i:
@@ -107,13 +100,12 @@ if __name__ == '__main__':
             max_consecutive_mismatches = seuil//4 
             consecutive_mismatches_count = 0
             while True:
-                print(current_query_pos)
                 direction = -1 if phase == "left" else 1
                 if phase == "left":
-                    if alignment.query_start == 0 or alignment.sequence_start == 0:
+                    if current_query_pos == 0 or current_sequence_pos == 0:
                         break
                 if phase == "right":
-                    if alignment.query_end == len(query) - 1 or alignment.sequence_end == len(sequence) -1:
+                    if current_query_pos == len(query) - 1 or current_sequence_pos == len(sequence) -1:
                         break
 
                 if query[current_query_pos + direction] == sequence[current_sequence_pos + direction]:
@@ -179,15 +171,90 @@ if __name__ == '__main__':
                     result.append(alignment)
             HSPs.append(result)
 
-        for HSP in HSPs:
-            for alignment in HSP:
-                print(alignment)
-    
+        len_list = list(map(len, HSPs))
+        print(len_list)
+        print("there are",  len(HSPs), "sequences in the database")
+        return HSPs
+
+    def fusion_HSPs(HSPs):
+        '''
+        Here, HSPs is a list of list of alignments for a sequence
+        '''
+        # sort the HSPs by their sequence_start position
+        HSPs.sort(key = lambda x: x.sequence_start)
+
+        # cluster all alignments that overlap
+        clusters = []
+        new = True
+        for i in range(len(HSPs)):
+            if new:
+                result = [i]
+                new = False
+            else:
+                if HSPs[i].sequence_start <= HSPs[result[-1]].sequence_end:
+                    result.append(i)
+                else:
+                    clusters.append(result)
+                    result = [i]
+                if i == len(HSPs) - 1:
+                    clusters.append(result)
+
+        # eliminate the alignments that are included in another alignment
+        def eliminate(cluster):
+            new_cluster = []
+            last = cluster[0]
+            for i in range(len(cluster)):
+                if i == 0:
+                    new_cluster.append(cluster[i])
+                if i > 0:
+                    if HSPs[cluster[i]].sequence_end <= HSPs[last].sequence_end: 
+                        pass 
+                    else:
+                        new_cluster.append(cluster[i])
+                        last = cluster[i]
+
+            return new_cluster
+
+        clusters = list(map(eliminate, clusters))
+        # print("clusters after elimination", clusters)
+
+        new_HSPs = []
+        # fusion the alignments in the same cluster
+        for cluster in clusters:
+            if len(cluster) == 1:
+                new_HSPs.append(HSPs[cluster[0]])
+            else:
+                for i in range(len(cluster)):
+                    if i == 0:
+                        new_alignment = HSPs[cluster[i]]
+                    if i > 0:
+                        old_sequence_end = HSPs[cluster[i-1]].sequence_end
+                        new_sequence_end = HSPs[cluster[i]].sequence_end
+                        append_length = new_sequence_end - old_sequence_end
+
+                        new_alignment.query_align += \
+                        HSPs[cluster[i]].query_align[len(HSPs[cluster[i]].query_align) - append_length:]
+                        new_alignment.seq_align += \
+                        HSPs[cluster[i]].seq_align[len(HSPs[cluster[i]].seq_align) - append_length:]
+                        new_alignment.sequence_end = HSPs[cluster[i]].sequence_end
+
+                new_HSPs.append(new_alignment)
+
+
+        return new_HSPs 
+
+
+
     querys = read_fasta("unknown.fasta")
-    print(querys)
+
     for query in querys:
-        get_alignment(query)
+        # get the HSPs
+        liste = get_alignment(query)
+        # fusion the HSPs
+        liste_after_fussion  = list(map(fusion_HSPs, liste))
+        print(list(map(len, liste_after_fussion)))
         print("=========================================")
+
        
 
         
