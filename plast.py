@@ -188,7 +188,7 @@ if __name__ == '__main__':
     for query in querys:
         get_alignment(query)
         print("=========================================")
-    
+       
 
         
 
