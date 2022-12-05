@@ -337,6 +337,7 @@ if __name__ == '__main__':
         for alignment in result:
             print(format_output(alignment)) 
         print("Total : ",len(result))
+        print("\n")
 
 
     get_alignmnets_for(query)
