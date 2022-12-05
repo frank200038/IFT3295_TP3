@@ -114,7 +114,6 @@ if __name__ == '__main__':
             self.bit_score = B
 
             m = sum(list(map(len,db)))
-            print("the total length of the database is:", m)
             n = len(query)
             e_value = m*n*2**(-B)
             self.e_value = e_value
@@ -211,8 +210,6 @@ if __name__ == '__main__':
             HSPs.append(result)
 
         len_list = list(map(len, HSPs))
-        print(len_list)
-        print("there are",  len(HSPs), "sequences in the database")
         return HSPs
 
     def fusion_HSPs(HSPs):
@@ -315,53 +312,40 @@ if __name__ == '__main__':
     ###################################################
     ###################################################
     ###################################################
-
-    liste = get_alignment(query)
-    # fusion the HSPs
-    liste_after_fusion  = list(map(fusion_HSPs, liste))
-    # calculate scores:
-    for i in range(len(liste_after_fusion)):
-        liste_after_fusion[i] = list(map(lambda x: get_score(x, query), liste_after_fusion[i]))
-    # cutoff
-    liste_after_cutoff = list(map(cutoff, liste_after_fusion))
-    # set_fasta_info
-    for i in range(len(liste_after_cutoff)):
-        for j in range(len(liste_after_cutoff[i])):
-            liste_after_cutoff[i][j].set_fasta_info(i)
-    # merge the results
-    result = [alignment for liste in liste_after_cutoff for alignment in liste]
-    # sort the results by their e_value
-    result.sort(key = lambda x: x.e_value)
-
-    # print the results
-    print("###############################################")
-    print("Here are all the significant alignments:")
-    print("###############################################")
-    for alignment in result:
-        print(format_output(alignment)) 
-    print("Total : ",len(result))
-    exit()
-
-
-    
-
-    print(list(map(len, liste_after_fusion)))
-    print("=========================================")
-
-    querys = read_fasta("unknown.fasta")
-
-    for query in querys:
-        # get the HSPs
+    def get_alignmnets_for(query):
         liste = get_alignment(query)
         # fusion the HSPs
         liste_after_fusion  = list(map(fusion_HSPs, liste))
         # calculate scores:
         for i in range(len(liste_after_fusion)):
-            for j in range(len(liste_after_fusion[i])):
-                get_score(liste_after_fusion[i][j], query)
+            liste_after_fusion[i] = list(map(lambda x: get_score(x, query), liste_after_fusion[i]))
+        # cutoff
+        liste_after_cutoff = list(map(cutoff, liste_after_fusion))
+        # set_fasta_info
+        for i in range(len(liste_after_cutoff)):
+            for j in range(len(liste_after_cutoff[i])):
+                liste_after_cutoff[i][j].set_fasta_info(i)
+        # merge the results
+        result = [alignment for liste in liste_after_cutoff for alignment in liste]
+        # sort the results by their e_value
+        result.sort(key = lambda x: x.e_value)
 
-        print(list(map(len, liste_after_fusion)))
-        print("=========================================")
+        # print the results
+        print("###############################################")
+        print(f"Here are all the significant alignments for \n {query}:")
+        print("###############################################")
+        for alignment in result:
+            print(format_output(alignment)) 
+        print("Total : ",len(result))
+
+
+    get_alignmnets_for(query)
+    exit()
+
+
+    
+
+
 
        
 
