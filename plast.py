@@ -196,8 +196,8 @@ if __name__ == '__main__':
                 else:
                     clusters.append(result)
                     result = [i]
-                if i == len(HSPs) - 1:
-                    clusters.append(result)
+            if i == len(HSPs) - 1:
+                clusters.append(result)
 
         # eliminate the alignments that are included in another alignment
         def eliminate(cluster):
