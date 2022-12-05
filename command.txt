@@ -1,1 +1,0 @@
-python plast.py -i CGTAGTCGGCTAACGCATACGCTTGATAAGCGTAAGAGCCC -db test.fasta -E 5 -ss 10 -seed 11111111111
