@@ -136,6 +136,8 @@ if __name__ == '__main__':
             alignment.sequence_start if phase == "left" else alignment.sequence_end
             added_scores = 0
             max_consecutive_mismatches = seuil//4 
+            if seuil % 4 == 0:
+                max_consecutive_mismatches -= 1
             consecutive_mismatches_count = 0
             while True:
                 direction = -1 if phase == "left" else 1
