@@ -1,5 +1,7 @@
 import argparse
 import os
+import math
+import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -22,7 +24,8 @@ if __name__ == '__main__':
         )
     parser.add_argument(
         "-ss",
-        type = int
+        type = float, 
+        default= 1e-3
         )
     parser.add_argument(
         "-seed",
@@ -33,7 +36,7 @@ if __name__ == '__main__':
     query = args.i
     db_path = args.db
     seuil = args.E
-    seuil_ss = args.ss
+    seuil_signification = args.ss
     seed = args.seed
 
     #======================================================
@@ -55,6 +58,17 @@ if __name__ == '__main__':
                 seqs.append(line.strip())
         return seqs
 
+    def read_fasta_info(fasta_file):
+        seqs = [] 
+        with open(fasta_file, 'r') as f:
+            for line in f:
+                if line.startswith('>'):
+                    seqs.append(line.strip())
+        return seqs
+    ####
+    fasta_info = read_fasta_info(db_path)
+    ####
+
     def exact_research(seed, sequence):
         # find all the positions of the seed in the sequence
         positions = []
@@ -67,7 +81,8 @@ if __name__ == '__main__':
         def __init__(
             self, 
             query_align, seq_align, bit_score, e_value,
-            query_start, query_end, sequence_start, sequence_end):
+            query_start, query_end, sequence_start, sequence_end
+            ):
             self.query_align = query_align
             self.seq_align = seq_align
             self.bit_score = bit_score
@@ -81,7 +96,31 @@ if __name__ == '__main__':
         def __str__(self):
             return f"[query_align: {self.query_align}, \nseq_align: {self.seq_align}, \nbit_score: {self.bit_score}, \ne_value: {self.e_value}, \nquery_start: {self.query_start}, \nquery_end: {self.query_end}, \nsequence_start: {self.sequence_start}, \nsequence_end: {self.sequence_end}]" 
 
+        def calculate_brut_score(self):
+            assert len(self.seq_align) == len(self.query_align)
+            brut_score = 0
+            for i in range(len(self.seq_align)):
+                if self.seq_align[i] ==  self.query_align[i]:
+                    brut_score += 5
+                else:
+                    brut_score -= 4
+            self.score = brut_score
+        
+        def calculate_bit_score_e_value(self,query):
+            self.calculate_brut_score()
+            lambdda = 0.192
+            K = 0.176
+            B = round((self.score* lambdda- math.log(K))/ math.log(2))# math_round?
+            self.bit_score = B
 
+            m = sum(list(map(len,db)))
+            print("the total length of the database is:", m)
+            n = len(query)
+            e_value = m*n*2**(-B)
+            self.e_value = e_value
+        
+        def set_fasta_info(self, index):
+            self.fasta_info = fasta_info[index]
 
 
     def extension(alignment, query, sequence):
@@ -237,13 +276,77 @@ if __name__ == '__main__':
                         new_alignment.seq_align += \
                         HSPs[cluster[i]].seq_align[len(HSPs[cluster[i]].seq_align) - append_length:]
                         new_alignment.sequence_end = HSPs[cluster[i]].sequence_end
+                        new_alignment.query_end = HSPs[cluster[i]].query_end
 
                 new_HSPs.append(new_alignment)
 
 
         return new_HSPs 
 
+    def get_score(alignment, query):
+        alignment.calculate_bit_score_e_value(query) 
+        return alignment
 
+    def cutoff(HSPs):
+        if len(HSPs) == 0:
+            return HSPs 
+        # each sequence just (at most) one alignment with e_value <= seuil_signification
+        new_HSPs = []
+        index = np.argmax(list(map(lambda x: x.e_value, HSPs)))
+        evalue_max = HSPs[index].e_value
+        if evalue_max <= seuil_signification:
+            new_HSPs.append(HSPs[index])
+        return new_HSPs
+
+    def format_output(alignment):
+        '''
+        >I|gat|Mesostigma_viride
+        # Best HSP score:78.00, bitscore:24.00, evalue: 7.67e-02
+        13 CGCATACGCTTGATAAGCGTA 33
+        23 AGTATACGCCTGATAAGCGTA 43
+        '''
+        return f'''
+>{alignment.fasta_info}
+# Best HSP score:{alignment.score:.2f}, bitscore:{alignment.bit_score:.2f}, evalue: {alignment.e_value:.2e}
+{alignment.query_start} {alignment.query_align} {alignment.query_end}
+{alignment.sequence_start} {alignment.seq_align} {alignment.sequence_end}
+----------------------------------------''' 
+
+    ###################################################
+    ###################################################
+    ###################################################
+
+    liste = get_alignment(query)
+    # fusion the HSPs
+    liste_after_fusion  = list(map(fusion_HSPs, liste))
+    # calculate scores:
+    for i in range(len(liste_after_fusion)):
+        liste_after_fusion[i] = list(map(lambda x: get_score(x, query), liste_after_fusion[i]))
+    # cutoff
+    liste_after_cutoff = list(map(cutoff, liste_after_fusion))
+    # set_fasta_info
+    for i in range(len(liste_after_cutoff)):
+        for j in range(len(liste_after_cutoff[i])):
+            liste_after_cutoff[i][j].set_fasta_info(i)
+    # merge the results
+    result = [alignment for liste in liste_after_cutoff for alignment in liste]
+    # sort the results by their e_value
+    result.sort(key = lambda x: x.e_value)
+
+    # print the results
+    print("###############################################")
+    print("Here are all the significant alignments:")
+    print("###############################################")
+    for alignment in result:
+        print(format_output(alignment)) 
+    print("Total : ",len(result))
+    exit()
+
+
+    
+
+    print(list(map(len, liste_after_fusion)))
+    print("=========================================")
 
     querys = read_fasta("unknown.fasta")
 
@@ -251,8 +354,13 @@ if __name__ == '__main__':
         # get the HSPs
         liste = get_alignment(query)
         # fusion the HSPs
-        liste_after_fussion  = list(map(fusion_HSPs, liste))
-        print(list(map(len, liste_after_fussion)))
+        liste_after_fusion  = list(map(fusion_HSPs, liste))
+        # calculate scores:
+        for i in range(len(liste_after_fusion)):
+            for j in range(len(liste_after_fusion[i])):
+                get_score(liste_after_fusion[i][j], query)
+
+        print(list(map(len, liste_after_fusion)))
         print("=========================================")
 
        
