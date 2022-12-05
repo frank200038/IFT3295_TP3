@@ -12,4 +12,4 @@ def read_fasta(fasta_file):
 if __name__ == '__main__':
     querys = read_fasta("unknown.fasta")
     for query in querys:
-       os.system(f"python3 plast.py -i {query} -db tRNAs.fasta -E 4 -ss 0.001 -seed '11111111111'")
+       os.system(f"python3 plast.py -i {query} -db tRNAs.fasta -E 4 -ss 0.1 -seed '11111111111'")
