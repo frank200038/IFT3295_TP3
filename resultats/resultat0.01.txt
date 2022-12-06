@@ -3,36 +3,24 @@ Here are all the significant alignments for
  AGCGGGGTAGAGGAATTGGTTTACTCATCAGGCTCATGACCTGAAGACTGCAGGTTCGAATCCTGTCCCCGCCT:
 ###############################################
 
->>M|cat|Bracteacoccus_minor_2
-# Best HSP score:105.00, bitscore:32.00, evalue: 5.41e-04
-11 GGAATTGGTTTACTCATCAGGCTCATGACC 40
-10 AGTAGTGGTTAACTCATCGGGCTCATGACC 39
-----------------------------------------
-
 >>M|cat|Carica_papaya
-# Best HSP score:96.00, bitscore:29.00, evalue: 4.33e-03
-0 AGCGGGGTAGAGGAATTGGTT 20
-0 AGCGGGGTAGAGGAATTGGTC 20
+# Best HSP score:100.00, bitscore:30.00, evalue: 2.16e-03
+0 AGCGGGGTAGAGGAATTGGT 19
+0 AGCGGGGTAGAGGAATTGGT 19
 ----------------------------------------
 
 >>M|cat|Arabidopsis_thaliana
-# Best HSP score:96.00, bitscore:29.00, evalue: 4.33e-03
-0 AGCGGGGTAGAGGAATTGGTT 20
-0 AGCGGGGTAGAGGAATTGGTC 20
-----------------------------------------
-
->>M|cat|Vitis_vinifera_2
-# Best HSP score:96.00, bitscore:29.00, evalue: 4.33e-03
-0 AGCGGGGTAGAGGAATTGGTT 20
-0 AGCGGGGTAGAGGAATTGGTC 20
+# Best HSP score:100.00, bitscore:30.00, evalue: 2.16e-03
+0 AGCGGGGTAGAGGAATTGGT 19
+0 AGCGGGGTAGAGGAATTGGT 19
 ----------------------------------------
 
 >>M|cat|Oryza_sativa_Japonica_Group
-# Best HSP score:96.00, bitscore:29.00, evalue: 4.33e-03
-0 AGCGGGGTAGAGGAATTGGTT 20
-0 AGCGGGGTAGAGGAATTGGTC 20
+# Best HSP score:100.00, bitscore:30.00, evalue: 2.16e-03
+0 AGCGGGGTAGAGGAATTGGT 19
+0 AGCGGGGTAGAGGAATTGGT 19
 ----------------------------------------
-Total :  5
+Total :  3
 
 
 ###############################################
@@ -40,30 +28,12 @@ Here are all the significant alignments for
  ACATCCTTAGCTCAGTAGGATAGAGCAACAGCCTTCTAAGCTGGTGGTCACAGGTTCAAATCCTGTAGGATGTA:
 ###############################################
 
->>R|tcg|Marchantia_polymorpha
-# Best HSP score:293.00, bitscore:84.00, evalue: 1.20e-19
-0 ACATCCTTAGCTCAGTAGGATAGAGCAACAGCCTTCTAAGCTGGTGGTCACAGGTTCAAATCCTGTAGGATGT 72
-0 GCATTCTTAGCTCAGTTGGATAGAGCAACAACCTTCGAAGTTGATGGTCACAGGTTCAAATCCTGTAGGATGC 72
+>>S|gga|Neochloris_aquatica
+# Best HSP score:95.00, bitscore:29.00, evalue: 4.33e-03
+47 TCACAGGTTCAAATCCTGT 65
+57 TCACAGGTTCAAATCCTGT 75
 ----------------------------------------
-
->>R|tct|Mesostigma_viride
-# Best HSP score:132.00, bitscore:39.00, evalue: 4.23e-06
-44 TGGTCACAGGTTCAAATCCTGTAGGATGTA 73
-44 AGGTCACAGGTTCAAATCCTGTAGAATGTA 73
-----------------------------------------
-
->>R|tct|Marchantia_polymorpha
-# Best HSP score:118.00, bitscore:35.00, evalue: 6.76e-05
-44 TGGTCACAGGTTCAAATCCTGTAGGATGT 72
-44 AGGTCACAGGTTCAAATCCTGTAGAATGC 72
-----------------------------------------
-
->>R|acg|Mesostigma_viride
-# Best HSP score:109.00, bitscore:33.00, evalue: 2.70e-04
-6 TTAGCTCAGTAGGATAGAGCAACAGCCTTCTAAGCTGG 43
-6 GTAGTTCAATAGGATAGAGCATCAGACTACGAATCTGA 43
-----------------------------------------
-Total :  4
+Total :  1
 
 
 ###############################################
@@ -72,41 +42,17 @@ Here are all the significant alignments for
 ###############################################
 
 >>P|tgg|Oryza_sativa_Japonica_Group
-# Best HSP score:137.00, bitscore:40.00, evalue: 2.11e-06
-43 GAGGTCACGGGTTCAAATCCTGTCATCCCTA 73
-43 AATGTCACGGGTTCAAATCCTGTCATCCCTA 73
+# Best HSP score:140.00, bitscore:41.00, evalue: 1.06e-06
+46 GTCACGGGTTCAAATCCTGTCATCCCTA 73
+46 GTCACGGGTTCAAATCCTGTCATCCCTA 73
 ----------------------------------------
 
 >>P|tgg|Sorghum_bicolor
-# Best HSP score:137.00, bitscore:40.00, evalue: 2.11e-06
-43 GAGGTCACGGGTTCAAATCCTGTCATCCCTA 73
-43 AATGTCACGGGTTCAAATCCTGTCATCCCTA 73
+# Best HSP score:140.00, bitscore:41.00, evalue: 1.06e-06
+46 GTCACGGGTTCAAATCCTGTCATCCCTA 73
+46 GTCACGGGTTCAAATCCTGTCATCCCTA 73
 ----------------------------------------
-
->>P|tgg|Vitis_vinifera
-# Best HSP score:128.00, bitscore:38.00, evalue: 8.45e-06
-43 GAGGTCACGGGTTCAAATCCTGTCATCCCTA 73
-43 AATGTCACGGGTTCCAATCCTGTCATCCCTA 73
-----------------------------------------
-
->>R|tct|Mesostigma_viride
-# Best HSP score:93.00, bitscore:28.00, evalue: 8.66e-03
-43 GAGGTCACGGGTTCAAATCCTGTC 66
-43 TAGGTCACAGGTTCAAATCCTGTA 66
-----------------------------------------
-
->>R|tct|Marchantia_polymorpha
-# Best HSP score:93.00, bitscore:28.00, evalue: 8.66e-03
-43 GAGGTCACGGGTTCAAATCCTGTC 66
-43 AAGGTCACAGGTTCAAATCCTGTA 66
-----------------------------------------
-
->>D|gtc|Mychonastes_homosphaera
-# Best HSP score:91.00, bitscore:28.00, evalue: 8.66e-03
-43 GAGGTCACGGGTTCAAATCCTGTCATCCC 71
-43 AAGGTCACGGGTTCAAGTCCCGTTATTCT 71
-----------------------------------------
-Total :  6
+Total :  2
 
 
 ###############################################
@@ -114,33 +60,9 @@ Here are all the significant alignments for
  GCATTCTTAGCTCAGCTGGATAGAGCAACAACCTTCTAAGTTGAAGGTCACAGGTTCAAATCCTGTAGGATGCT:
 ###############################################
 
->>R|tct|Marchantia_polymorpha
-# Best HSP score:343.00, bitscore:98.00, evalue: 7.33e-24
-0 GCATTCTTAGCTCAGCTGGATAGAGCAACAACCTTCTAAGTTGAAGGTCACAGGTTCAAATCCTGTAGGATGCT 73
-0 GCATTCTTAGCTCAGTTGGATAGAGCAACAACCTTCTAAGTTGAAGGTCACAGGTTCAAATCCTGTAGAATGCG 73
+>>S|gga|Neochloris_aquatica
+# Best HSP score:95.00, bitscore:29.00, evalue: 4.33e-03
+47 TCACAGGTTCAAATCCTGT 65
+57 TCACAGGTTCAAATCCTGT 75
 ----------------------------------------
-
->>R|tcg|Marchantia_polymorpha
-# Best HSP score:334.00, bitscore:95.00, evalue: 5.87e-23
-0 GCATTCTTAGCTCAGCTGGATAGAGCAACAACCTTCTAAGTTGAAGGTCACAGGTTCAAATCCTGTAGGATGCT 73
-0 GCATTCTTAGCTCAGTTGGATAGAGCAACAACCTTCGAAGTTGATGGTCACAGGTTCAAATCCTGTAGGATGCG 73
-----------------------------------------
-
->>R|tct|Mesostigma_viride
-# Best HSP score:123.00, bitscore:37.00, evalue: 1.69e-05
-0 GCATTCTTAGCTCAGCTGGATAGAGCAACA 29
-0 ACATTCTTAGCTCAGTTGGATAGAGCAACG 29
-----------------------------------------
-
->>P|tgg|Mesostigma_viride
-# Best HSP score:94.00, bitscore:29.00, evalue: 4.33e-03
-41 TGAAGGTCACAGGTTCAAATCCTGTA 66
-41 AGAATGCCACAGGTTCAAATCCTGTC 66
-----------------------------------------
-
->>P|tgg|Marchantia_polymorpha
-# Best HSP score:94.00, bitscore:29.00, evalue: 4.33e-03
-41 TGAAGGTCACAGGTTCAAATCCTGTA 66
-41 AGAAAGTTACAGGTTCAAATCCTGTC 66
-----------------------------------------
-Total :  5
+Total :  1
