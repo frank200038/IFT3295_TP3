@@ -128,7 +128,7 @@ Total :  5
 
 
 ###############################################
-Here are all the significant alignments for 
+Here are all the significant alignments for
  GCATTCTTAGCTCAGCTGGATAGAGCAACAACCTTCTAAGTTGAAGGTCACAGGTTCAAATCCTGTAGGATGCT:
 ###############################################
 
